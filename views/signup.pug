@@ -1,0 +1,30 @@
+extends layout
+block content
+    .container
+    .row
+        .col-sm-9.col-md-7.col-lg-5.mx-auto
+            .card.border-0.shadow.rounded-3.my-5
+                .card-body.p-4.p-sm-5
+                    h5.card-title.text-center.mb-5.fw-light.fs-5 Sign Up
+                    form#form.form(action='/signup', method='POST')
+                        .form-group
+                            label(for='formGroupExampleInput') Name
+                            input#formGroupExampleInput.form-control(type='text' required='true' name='full_name')
+                        .form-group
+                            label(for='formGroupExampleInput') User name
+                            input#formGroupExampleInput.form-control(type='text' required='true' name='user_name')
+                        .form-group
+                            label(for='formGroupExampleInput') Email address
+                            input#formGroupExampleInput.form-control(type='email' required='true' name='email')
+                        .form-group
+                            label(for='formGroupExampleInput2') Password
+                            input#formGroupExampleInput2.form-control(type='password' required='true' name='password')
+                        br
+                        .text-center
+                            button.btn.btn-primary.btn-login.text-uppercase.fw-bold.text-center(type='submit') Sign Up
+                    hr.my-4
+                    .text-center
+                            p Already have an account ?
+                            a(href="/login") Login
+
+

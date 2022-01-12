@@ -1,0 +1,63 @@
+extends layout
+
+block content
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.nav(style='background-color: #24292f !important;')
+        .container-fluid(style="padding: 12px 24px;")
+            a(class="navbar-brand" href="#") 
+                img(src='https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg' style="width: 35px;")
+            div(class="collapse navbar-collapse" id="navbarNavAltMarkup")
+                div(class="navbar-nav")
+                    input#example-search-input.form-control.py-2.navSearch(type='text' placeholder='Search or jump to...')
+                    a(class="nav-link" href="#" style='color:white;') Pulls
+                    a(class="nav-link" href="#" style='color:white;') Issues 
+                    a(class="nav-link" href="#" style='color:white;') Marketplace
+                    a(class="nav-link" href="#" style='color:white;') Explore
+            div
+                a(href='/logout').logout Logout
+
+    div(style='background-color:#f6f8fa;')
+        div.container
+            div.row
+                div.col(style='margin-top: 20px;')
+                    a.projTitle Project_Name 
+        div.row.tabs
+            .col-sm.issueTab
+                i.far.fa-scrubber
+                p
+                    a(href="/home")  Issues
+        hr(style='margin-top: 0px;')
+    
+
+    div(style='margin-top: 30px;')
+        div.container.labelContainer
+            div.row
+                form.flex(action='/create-label' method='POST')(style='align-items: end;')
+                    .col-sm-10.flex
+                        div.flex-col
+                            label 
+                                b Label Name
+                            input(type='text' placeholder = 'Label Name' name='label_name').labelInputs
+                        div.flex-col
+                            label 
+                                b Description
+                            input(type='text' placeholder = 'Description' name='description').labelInputs
+                        div.flex-col
+                            label 
+                                b Color
+                            input(type='text' placeholder = 'Color code' name='color_code').labelInputs
+                    .col-sm-3
+                        button.btn.btn-success.issueBtn Create Label
+        
+        div.container(style='margin-top: 30px;')
+            table.table.labelTable
+                thead(style='padding: 1rem;')
+                    tr(style='border-bottom: 1px solid #d0d7de')
+                        td(style='border: none;') 
+                            b #{labels.length} labels
+                tbody(style='background: #fff;')
+                    each label in labels
+                        tr
+                            td
+                                a.issueLabel(style=`background: ${label.bg_color}; color:${label.font_color}; padding: 2px 12px; font-size: 14px;`)  #{label.name}
+                            td 
+                                a(style='color: #57606a !important; font-size: 14px;') #{label.description}

@@ -1,0 +1,153 @@
+.nav { 
+    font-weight: 600; 
+    padding: unset !important;
+}
+
+.navSearch {
+    background-color: #24292f !important; 
+    border: 1px solid #57606a !important;  
+    color: #fff;
+}
+
+.projTitle {
+    color:#0969da !important; 
+    font-weight: bold; 
+    font-size: 20px;
+}
+
+.tabs {
+    margin-top: 35px;
+    margin-left: 5% !important;
+    width: fit-content; 
+    border-bottom: 3px solid #fd8c73;
+}
+
+.issueTab {
+    display: flex; 
+    align-items: baseline; 
+    gap: 0.4rem;
+    font-weight: 600;
+}
+
+.subDiv {
+    display: flex; 
+    margin: auto; 
+    margin-top: 30px; 
+    justify-content: space-between; 
+    align-items: baseline;
+}
+
+.filterSearch {
+    width: 930px; 
+    height: 40px; 
+    background-color: #f6f8fa; 
+    border: 1px solid #d0d7de; border-radius: 5px;
+}
+
+.filterBtns, .btnMilestone {
+    border: 1px solid #d0d7de !important; 
+    border-radius: 5px 0 0 5px !important;
+}
+
+.btnMilestone {
+    border-radius: 0 5px 5px 0 !important;
+}
+
+.icons {
+    margin-right: 5px;
+}
+
+.issueBtn {
+    background-color: #2da44e !important; 
+    padding: 6px 16px !important;
+    color: #fff !important;
+}
+
+.boxHead {
+    padding: 15px; 
+    border-radius: 10px 10px 0 0; 
+    background-color: #f6f8fa;  
+    border: 1px solid #d0d7de; 
+    font-weight: bold; 
+    justify-content: space-between;
+}
+
+.boxBody {
+    text-align: center; 
+    height: 300px; 
+    border: 1px solid #d0d7de; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    border-radius: 0 0 5px 5px;
+}
+
+.flex {
+    display: flex !important;
+}
+
+.issuesDiv {
+    align-items: baseline; 
+    padding: 5px; 
+    border-top: 1px solid #d0d7de;
+}
+
+.issueDetails {
+    justify-content: space-between;
+    gap: 0.2rem; 
+    align-items: baseline;
+}
+
+.issueIcon {
+    color: green; 
+    font-size: 20px; 
+    margin-right: 10px;
+}
+
+.issueName {
+    font-weight: 600; 
+    font-size: 20px; 
+}
+
+.issueLabel {
+    padding: 2px 8px; 
+    border-radius: 10px;  
+    font-size: 12px; 
+    margin: 0;
+}
+
+.logout {
+    padding: 10px 10px; 
+    border: 3px solid #ddd8d8; 
+    border-radius: 5px;
+    color: #fff !important; 
+}
+
+.issueId {
+    margin: auto; 
+    color: #57606a; 
+    font-weight: normal;
+}
+
+.page-link {
+    border: none !important;
+    margin: 10px;
+}
+
+.page-item.disabled .page-link {
+    color: #6c757d !important;
+}
+
+.page-link:hover {
+    border-radius: 6px;
+}
+
+.page-link-active {
+    background-color: #0969da !important;
+    color: #fff !important;
+    border-radius: 6px;
+}
+
+.ql-toolbar .ql-snow {
+    border-radius: 10px 10px 0 0 !important;
+}

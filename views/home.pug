@@ -1,0 +1,128 @@
+extends layout
+
+block content
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.nav(style='background-color: #24292f !important;')
+        .container-fluid(style="padding: 12px 24px;")
+            a(class="navbar-brand" href="#") 
+                img(src='https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg' style="width: 35px;")
+            div(class="collapse navbar-collapse" id="navbarNavAltMarkup")
+                div(class="navbar-nav")
+                    input#example-search-input.form-control.py-2.navSearch(type='text' placeholder='Search or jump to...')
+            div
+                a(href='/logout').logout Logout
+    div(style='background-color:#f6f8fa;')
+        div.container
+            div.row
+                div.col(style='margin-top: 20px;')
+                    a.projTitle Project_Name 
+        div.row.tabs
+            .col-sm.issueTab
+                i.far.fa-scrubber
+                p Issues
+        hr(style='margin-top: 0px;')
+    div.col-sm-11.subDiv
+        div 
+            form(action='/home', method='GET')
+                input(type='text' placeholder='Search' name='search_keyword').filterSearch
+        div
+            div
+                a(href="/labels").p-2.btn.btn-light.filterBtns
+                    i.fas.fa-tag.icons
+                    | Labels 0
+                button.p-2.btn.btn-light.btnMilestone Milestones 0
+        div
+            a(href="/issues/new").btn.btn-success.issueBtn New Issue
+
+    if filterdIssues
+        a(href='/home').col-sm-11.flex(style='margin-left: 4%; margin-top: 0.5%; gap: 0.5rem; align-items: baseline; color: #000;')
+            i.fas.fa-window-close
+            h5 Clear Filters
+    div.col-sm-11(style='margin: auto; margin-top: 20px;')
+        div.boxHead.flex
+            div(style='align-items: center;')
+                //- input(type='checkbox')(style="margin-right: 15px;")
+                if issues
+                    i.far.fa-scrubber.icons
+                    | #{issues.length} Open
+                else
+                    i.far.fa-scrubber.icons
+                    | #{filterdIssues.length} Open
+            div(style='display: flex;')
+                .dropdown
+                    button#dropdownMenuButton.btn.btn-secondary.dropdown-toggle(type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')(style='background: none; border: none; color: grey;')
+                        | Label
+                    .dropdown-menu(aria-labelledby='dropdownMenuButton')
+                        each label in labels
+                            a(href=`/home/search?label_id=${label.id}`).dropdown-item(style='display: flex; gap: 0.3rem;')
+                                div(style=`width: 20px; background: ${label.bg_color}; height: 20px; border-radius: 50%;`)
+                                div #{label.name}
+
+                .dropdown
+                    button#dropdownMenuButton.btn.btn-secondary.dropdown-toggle(type='button' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')(style='background: none; border: none; color: grey;')
+                        | Assignee
+                    .dropdown-menu(aria-labelledby='dropdownMenuButton')
+                        each user in users
+                            a(href=`/home/search?assignee_id=${user.id}`).dropdown-item(style='display: flex; gap: 0.3rem;')
+                                div #{user.username}
+
+                        
+
+        div.boxHead.flex(style='flex-direction: column; background: #fff; border-radius: 0 0 5px 5px; padding: 0; border: 0.2px solid #d0d7de;')
+            if issues
+                if issues.length > 0 
+                each issue in issues 
+                    div.flex.issuesDiv
+                        div
+                            input(type='checkbox')(style="margin: 15px;")
+                            i.far.fa-scrubber.icons.issueIcon
+                        div
+                            div.flex.issueDetails
+                                a.issueName(href=`/issues/${issue.id}`) #{issue.title} 
+                                p.issueLabel(style=`background: ${issue.bgColor}; color: ${issue.fontColor};`) #{issue.label}
+                                div #{issue.assignee}
+                            p.issueId ##{issue.id}
+                else 
+                    div.boxBody
+                        h3 There aren’t any open issues.
+            else 
+                if filterdIssues.length > 0
+                each issue in filterdIssues 
+                    div.flex.issuesDiv
+                        div
+                            input(type='checkbox')(style="margin: 15px;")
+                            i.far.fa-scrubber.icons.issueIcon
+                        div
+                            div.flex.issueDetails
+                                a.issueName(href=`/issues/${issue.id}`) #{issue.title} 
+                                p.issueLabel(style=`background: ${issue.bgColor}; color: ${issue.fontColor};`) #{issue.label}
+                                div #{issue.assignee}
+                            p.issueId ##{issue.id}
+                else
+                    div.boxBody
+                        h3 No results matched your search..
+        br
+        nav(aria-label='Page navigation example')
+            ul.pagination.justify-content-center
+                if (currPage === 1)
+                    li.page-item.disabled
+                        a.page-link(href='#' tabindex='-1')
+                            span(aria-hidden="true") &laquo; Previous
+                else
+                     li.page-item
+                        a.page-link(href=`/home?page=${currPage-1}` tabindex='-1')
+                            span(aria-hidden="true") &laquo; Previous
+                each page in numbers
+                    if (currPage == page)
+                        li.page-item
+                            a.page-link.page-link-active(href='/home?page=1') #{page}
+                    else
+                        li.page-item
+                            a.page-link(href=`/home?page=${page}`) #{page}
+                if (currPage === lastPage)
+                    li.page-item.disabled
+                        a.page-link(href='#') Next
+                            span(aria-hidden="true") &raquo;
+                else 
+                    li.page-item
+                        a.page-link(href=`/home?page=${currPage+1}`) Next
+                            span(aria-hidden="true")(style='margin-left: 10px;') &raquo;

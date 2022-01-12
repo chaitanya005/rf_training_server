@@ -1,0 +1,141 @@
+extends layout
+
+block content
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.nav(style='background-color: #24292f !important;')
+        .container-fluid(style="padding: 12px 24px;")
+            a(class="navbar-brand" href="#") 
+                img(src='https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg' style="width: 35px;")
+            div(class="collapse navbar-collapse" id="navbarNavAltMarkup")
+                div(class="navbar-nav")
+                    input#example-search-input.form-control.py-2.navSearch(type='text' placeholder='Search or jump to...')
+                    a(class="nav-link" href="#" style='color:white;') Pulls
+                    a(class="nav-link" href="#" style='color:white;') Issues 
+                    a(class="nav-link" href="#" style='color:white;') Marketplace
+                    a(class="nav-link" href="#" style='color:white;') Explore
+            div
+                a(href='/logout').logout Logout
+    div(style='background-color:#f6f8fa;')
+        div.container
+            div.row
+                div.col(style='margin-top: 20px;')
+                    a.projTitle Project_Name 
+        div.row.tabs
+            .col-sm.issueTab
+                i.far.fa-scrubber
+                p 
+                    a(href="/home")  Issues
+        hr(style='margin-top: 0px;')
+
+    div.container
+        div.row
+            div
+                div(style='display: flex; letter-spacing: 0.5px; gap: 0.4rem;')
+                    h2 #{issue[0].title}
+                    h2(style='color: #57606a;') ##{issue[0].id}
+                div
+                    if issue[0].issue_status == 'open'
+                        button.btn.btn-success(style='font-weight: 600; background: #2da44e; border-radius: 20px; padding: 6px 18px;')
+                            i.far.fa-scrubber    Open
+                    else
+                        button.btn.btn-primary(style='font-weight: 600; background: #8250df; border-radius: 20px; padding: 6px 18px; border: 1px solid #8250df;')
+                            i.far.fa-check-circle    Closed
+
+        hr
+        .row 
+            div.col-sm-2 #{issue[0].posted_by}              
+            div.col-sm-8
+                table.table(style='border-collapse: separate; border-spacing: 0;')
+                    thead(style='background: #ddf4ff;')
+                        tr
+                            th(style='border: 1px solid #a6d9ff; border-radius: 5px 5px 0 0;')(scope='col') #{issue[0].posted_by}
+                    tbody
+                        tr
+                            td(style='border: 1px solid #a6d9ff; border-radius: 0 0 5px 5px;')(scope='row') #{issue[0].comment}
+            div.col-sm-2 
+                select#label.form-select(aria-label='Default select example')(style='all: unset; color: #57606a; font-weight: 600; font-size: 14px; ')(name='label' onChange=`handleLabel(${issue[0].id})`)
+                    .dropdown-menu(aria-labelledby='dropdownMenuButton')
+                        option(value=0) Labels
+                        each label in labels
+                            if label.name !== issue[0].label_name
+                                option(value=`${label.id}`) #{label.name}
+                p(style=`background: ${issue[0].label_bgColor}; padding: 2px 8px; border-radius: 10px;  font-size: 12px; margin: 0; margin-top: 10px; color: ${issue[0].label_fontColor}; width: fit-content;`) #{issue[0].label_name}
+                hr
+                select#assignee.form-select(aria-label='Default select example')(style='all: unset; color: #57606a; font-weight: 600; font-size: 14px; ')(name='assignee' onChange=`handleAssignee(${issue[0].id})`)
+                    .dropdown-menu(aria-labelledby='dropdownMenuButton')
+                        option(value=0) Assignees
+                        each user in users
+                            if user.username !== issue[0].assignee
+                                option(value=`${user.id}`) #{user.username}
+                p(style='font-size: 14px; margin-top: 5px;') #{issue[0].assignee}
+
+            each comment in issue
+                if comment.user_posted_by !== null
+                    div.col-sm-2 #{comment.user_posted_by}              
+                    div.col-sm-8
+                        table.table(style='border-collapse: separate; border-spacing: 0;')
+                            thead(style='background: #ddf4ff;')
+                                tr
+                                    th(style='border: 1px solid #a6d9ff; border-radius: 5px 5px 0 0;')(scope='col') #{comment.user_posted_by}
+                            tbody
+                                tr
+                                    td(style='border: 1px solid #a6d9ff; border-radius: 0 0 5px 5px;')(scope='row') #{comment.comments}
+                    div.col-sm-2  
+            //- p(style='color: #57606a; font-weight: 600; font-size: 14px;') Labels
+            //- hr
+            //- p(style='color: #57606a; font-weight: 600; font-size: 14px;') Labels
+
+            div.col-sm-2
+            div.col-sm-8
+                form(action='/create-comment', method='POST')
+                    input(type='hidden' name='issue_id' value=`${issue[0].id}`)
+                    input#markdown-editor(type='textarea' value='' name='editor' placeholder='Leave a comment')
+                    //- button.btn.btn-light(style='margin-right: 15px; border: 1px solid #d0d7de; border-radius: 5px;')
+                    //-     i.far.fa-check-circle(style='color: #8250df; padding: 5px;')
+                    //-     |     Close Issue
+                    button.btn.btn-success(style='background-color: #2da44e;') Comment
+
+
+    style.
+        .CodeMirror-scroll {
+            min-height: 100px !important;
+        }
+
+    script.
+        const easyMDE = new EasyMDE({element: document.getElementById('markdown-editor')});
+    
+    script.
+        function handleLabel(id) {
+            let label = document.getElementById('label').value
+            //- console.log(label, id)
+            fetch('/update-label', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({label: label, issue_id: id})
+            })
+            .then(res => {
+                console.log(res)
+                window.location.reload()
+            })
+            .catch(err => console.log(err))
+        };
+        
+
+        function handleAssignee(id) {
+            let assignee = document.getElementById('assignee').value
+            //- console.log(assignee, id)
+            fetch('/update-assignee', {
+                method: 'POST', 
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({assignee: assignee, issue_id: id})
+            })
+            .then(res => {
+                console.log(res)
+                window.location.reload()
+            })
+            .catch(err => console.log(err))
+        };
+        

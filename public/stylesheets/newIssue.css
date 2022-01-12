@@ -1,0 +1,30 @@
+.issueTitle {
+    background: #f6f8fa; 
+    margin-top: 10px; 
+    width: 100%; 
+    border-radius: 5px; 
+    height: 40px; 
+    font-size: 18px; 
+    border: 1px solid #d0d7de;
+}
+
+.newIssue {
+    border: 1px solid #d0d7de; 
+    border-radius: 5px; 
+    display: flex; 
+    flex-direction: column;
+}
+
+.btnSubmit {
+    background-color: #2da44e !important; 
+    margin-left: auto !important;  
+    margin-bottom: 10px;
+}
+
+.EasyMDEContainer {
+    margin-top: 20px;
+}
+
+.CodeMirror {
+    background-color: #f6f8fa !important;
+}

@@ -1,0 +1,15 @@
+body {
+  /* padding: 50px; */
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  text-decoration: none !important; 
+  color: #000 !important;
+}
+
+.navHead {
+  margin: "50px";
+}
+
+

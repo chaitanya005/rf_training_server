@@ -1,0 +1,57 @@
+extends layout
+
+block content
+    nav.navbar.navbar-expand-lg.navbar-dark.bg-dark.nav(style='background-color: #24292f !important;')
+        .container-fluid(style="padding: 12px 24px;")
+            a(class="navbar-brand" href="#") 
+                img(src='https://icon-library.com/images/github-icon-white/github-icon-white-6.jpg' style="width: 35px;")
+            div(class="collapse navbar-collapse" id="navbarNavAltMarkup")
+                div(class="navbar-nav")
+                    input#example-search-input.form-control.py-2.navSearch(type='text' placeholder='Search or jump to...')
+                    a(class="nav-link" href="#" style='color:white;') Pulls
+                    a(class="nav-link" href="#" style='color:white;') Issues 
+                    a(class="nav-link" href="#" style='color:white;') Marketplace
+                    a(class="nav-link" href="#" style='color:white;') Explore
+            div
+                a(href='/logout').logout Logout
+    div(style='background-color:#f6f8fa;')
+        div.container
+            div.row
+                div.col(style='margin-top: 20px;')
+                    a.projTitle Project_Name 
+        div.row.tabs
+            .col-sm.issueTab
+                i.far.fa-scrubber
+                p 
+                    a(href="/home")  Issues
+        hr(style='margin-top: 0px;')
+    
+    div
+        form(action='/create-issue', method='POST')(style='display: flex;')
+            div.col-sm-1 
+            div.col-sm-9.newIssue
+                    input(type='text' placeholder='  Title' name='title').issueTitle
+                    input#markdown-editor(type='textarea' value='' name='editor' placeholder='Leave a comment')
+                    button.btn.btn-success.btnSubmit Submit new issue
+
+            div.col-sm-2
+                //- .dropdown
+                //- button#dropdownMenuButton(type='button' data-toggle='dropdown' name='label')(style='all: unset; color: #57606a; font-weight: 600; font-size: 14px; ') Labels
+                    //- .dropdown-menu(aria-labelledby='dropdownMenuButton')
+                        a.dropdown-item(href='#') Action
+                        a.dropdown-item(href='#') Another action
+                        a.dropdown-item(href='#') Something else here
+                select.form-select(aria-label='Default select example')(style='all: unset; color: #57606a; font-weight: 600; font-size: 14px; ')(name='label')
+                    .dropdown-menu(aria-labelledby='dropdownMenuButton')
+                        option(value=0) Labels
+                    each label in labels
+                        option(value=`${label.id}`)  #{label.name}
+                hr
+                select#label.form-select(aria-label='Default select example')(style='all: unset; color: #57606a; font-weight: 600; font-size: 14px; ')(name='assignee')
+                    .dropdown-menu(aria-labelledby='dropdownMenuButton')
+                        option(value=0) Assignees
+                    each user in users
+                        option(value=`${user.id}`) #{user.username}
+
+    script.
+        const easyMDE = new EasyMDE({element: document.getElementById('markdown-editor')});
